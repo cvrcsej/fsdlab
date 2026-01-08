@@ -9,8 +9,8 @@ function fetchUserDetails(userId, callback) {
     setTimeout(function () {
         let user = {
             id: userId,
-            name: "Ravi",
-            email: "ravi@gmail.com"
+            name: "Rahul",
+            email: "Rahul@gmail.com"
         }
         callback(user)
     }, 1000)
