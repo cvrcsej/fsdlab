@@ -3,3 +3,10 @@
 // c.Use the fs module for creating directories and files of different formats.
 // d.Write script to read and write the streaming data using readable and writable streams
 
+export const add = (a, b) => {
+    return a + b;
+}
+
+export const div = (a, b) => {
+    return a / b;
+}
