@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+</head>
+
+<body>
+    <input id="city" type="text" placeholder="Enter city name">
+    <button id="search">Search</button>
+    <script>
+        let cityname = document.getElementById("city");
+        let searchbutton = document.getElementById("search");
+        let container = document.getElementById("container");
+        searchbutton.onclick = () => {
+            let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityname.value}&appid=7f6ab87a656a57ef09e8e3328bd4ee10`;
+
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    const divcontainer = document.createElement('div')
+                    container.innerHTML = `
+                        <p>City Name : ${data.name}</p>
+                        <p>Temperature : ${data.main.temp}</p>
+                        <p>Min Temp : ${data.main.temp_min}</p>
+                        <p>Max Temp : ${data.main.temp_max}</p>
+                    `
+                    body.appendChild(divcontainer);
+                    divcontainer.appendChild(container);
+                })
+                .catch(() => {
+                    alert("city not found");
+                });
+        };
+    </script>
+</body>
+
+</html>

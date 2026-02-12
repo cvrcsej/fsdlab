@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Information</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+    <input type="text" id="weatherplace" placeholder="Enter the city Name" />
+    <button id="btn">Get Weather</button>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Attribute</th>
+                <th scope="col">Value</th>
+            </tr>
+        </thead>
+        <tbody id="weather-data">
+
+        </tbody>
+    </table>
+
+    <script>
+        const paravalue = document.getElementById("weatherplace");
+        const btnvalue = document.getElementById('btn');
+        const weatherDataContainer = document.getElementById('weather-data');
+        const api = '7f6ab87a656a57ef09e8e3328bd4ee10';
+
+        btnvalue.addEventListener('click', async () => {
+            if (paravalue.value) {
+                const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${paravalue.value}&appid=${api}`);
+                const data = await res.json();
+
+                weatherDataContainer.innerHTML = '';
+
+                if (data.cod === 200) {
+                    const weatherInfo = [
+                        { attribute: 'City', value: data.name },
+                        // { attribute: 'Country', value: data.sys.country },
+                        // { attribute: 'Coordinates', value: `Lat: ${data.coord.lat}, Lon: ${data.coord.lon}` },
+                        { attribute: 'Temperature', value: `${(data.main.temp - 273.15).toFixed(2)} °C` },
+                        { attribute: 'Humidity', value: `${data.main.humidity} %` },
+                        { attribute: 'Pressure', value: `${data.main.pressure} hPa` },
+                        { attribute: 'Visibility', value: `${data.visibility / 1000} km` },
+                        { attribute: 'Weather', value: data.weather[0].description },
+                        { attribute: 'Wind Speed', value: `${data.wind.speed} m/s` },
+                        { attribute: 'Wind Direction', value: `${data.wind.deg}°` },
+                        // { attribute: 'Cloudiness', value: `${data.clouds.all} %` },
+                        // { attribute: 'Sunrise', value: new Date(data.sys.sunrise * 1000).toLocaleTimeString() },
+                        // { attribute: 'Sunset', value: new Date(data.sys.sunset * 1000).toLocaleTimeString() }
+                    ];
+
+                    weatherInfo.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `<td>${item.attribute}</td><td>${item.value}</td>`;
+                        weatherDataContainer.appendChild(row);
+                    });
+                } else {
+                    weatherDataContainer.innerHTML = `<tr><td colspan="2">City not found or invalid API key.</td></tr>`;
+                }
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+        integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
